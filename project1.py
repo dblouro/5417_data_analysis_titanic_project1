@@ -10,6 +10,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
+# ATIVIDADE 3.1
+
 print('\nAtividade 3.1 - Leitura e exploração dos dados')
 #carregar o ficheiro csv
 df = pd.read_csv('titanic.csv')
@@ -34,6 +36,7 @@ print(df.describe(include='all'))
 print("\nInformação geral sobre o DataFrame:")
 print(df.info())
 
+# ATIVIDADE 3.2
 
 print('\nAtividade 3.2 - Limpeza e pré-processamento de dados')
 #verificar os valores nulos totais em cada coluna
@@ -91,7 +94,16 @@ print(df[['Age', 'Idade_Milissegundos']].head(10))
 #salvar o novo dataframe com a nova coluna
 df.to_csv('titanic_tratado_com_idade.csv', index=False)
 
+# ATIVIDADE 3.3
+
 print('\nAtividade 3.3 - Análise e manipulação de dados')
+
+#taxa da mortalidade por sexos
+print('\nTaxa de Mortalidade por sexo:')
+mortalidade_sexo = df.groupby('Sex')['Survived'].apply(lambda x: 1 - x.mean())
+print(mortalidade_sexo)
+#COnclusao: basicamente, as mulheres sobreviveram e nenhum homem sobreviveu
+
 
 #taxa de sobrevivência por sexo
 taxa_sobrevivencia_sexo = df.groupby('Sex')['Survived'].mean() * 100
@@ -139,4 +151,45 @@ print("Idade Média por Classe e Sobrevivência:\n", idade_por_classe)
 #prioridades dadas durante o resgate (potencialmente favorecendo crianças e mulheres).
 
 
+# ATIVIDADE 3.4
+
+print('\nAtividade 3.4 Visualização de dados')
+
+# Configuração de estilo dos graficos
+sns.set(style="whitegrid")
+
+#Representar a distribuição dos sobreviventes por classe e sexo (eixo x: Pclass, eixos y: contagem de sobreviventes, diferenciando o sexo).
+#Gráfico de linha
+sobreviventes_classe_sexo = df[df['Survived'] == 1].groupby(['Pclass', 'Sex']).size().unstack()
+print(sobreviventes_classe_sexo)
+sobreviventes_classe_sexo.plot(kind='line', marker='o', figsize=(8, 6))
+plt.title('Distribuição de Sobreviventes por Classe e Sexo')
+plt.xlabel('Classe')
+plt.ylabel('Número de Sobreviventes')
+plt.legend(title='Sexo')
+plt.show()
+
+#Representa a correlaçao entre as variaveis AGE, FARE e SURVIVED
+#Gráficos de dispersão
+fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+sns.scatterplot(data=df, x='Age', y='Fare', hue='Survived', ax=axes[0])
+axes[0].set_title('Idade vs Tarifa')
+sns.scatterplot(data=df, x='Age', y='Survived', ax=axes[1])
+axes[1].set_title('Idade vs Sobrevivência')
+sns.scatterplot(data=df, x='Fare', y='Survived', ax=axes[2])
+axes[2].set_title('Tarifa vs Sobrevivência')
+plt.tight_layout()
+plt.show()
+
+#Representa a distribuiçao de variaveis onde se pode observar predominancia de faixas etarias ou tarifas nos sobreviventes
+#Histogramas
+fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+sns.histplot(data=df, x='Age', hue='Survived', kde=True, ax=axes[0], bins=20)
+axes[0].set_title('Distribuição de Idades')
+sns.histplot(data=df, x='Fare', hue='Survived', kde=True, ax=axes[1], bins=20)
+axes[1].set_title('Distribuição de Tarifas')
+sns.histplot(data=df, x='Survived', kde=False, ax=axes[2], bins=3)
+axes[2].set_title('Distribuição de Sobrevivência')
+plt.tight_layout()
+plt.show()
 
