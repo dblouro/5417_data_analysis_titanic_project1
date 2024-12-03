@@ -9,6 +9,9 @@ import datetime
 import seaborn as sns
 import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
+import sqlite3
+
+
 
 print('\nAtividade 3.1 - Leitura e exploração dos dados')
 #carregar o ficheiro csv
@@ -138,5 +141,45 @@ print("Idade Média por Classe e Sobrevivência:\n", idade_por_classe)
 #acesso a botes salva-vidas (maior nas classes mais altas).
 #prioridades dadas durante o resgate (potencialmente favorecendo crianças e mulheres).
 
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
 
+# Criar a tabela
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS passageiros (
+        PassengerId INTEGER PRIMARY KEY,
+        Survived INTEGER,
+        Pclass INTEGER,
+        Name TEXT,
+        Sex TEXT,
+        Age REAL,
+        SibSp INTEGER,
+        Parch INTEGER,
+        Ticket TEXT,
+        Fare REAL,
+        Cabin TEXT,
+        Embarked TEXT,
+        Idade_Milissegundos BIGINT
+    )
+''')
 
+# Confirmar a criação
+conn.commit()
+
+for index, row in df.iterrows():
+    cursor.execute('''
+        INSERT INTO passageiros (PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked, Idade_Milissegundos)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        row['PassengerId'], row['Survived'], row['Pclass'], row['Name'], row['Sex'],
+        row['Age'], row['SibSp'], row['Parch'], row['Ticket'], row['Fare'],
+        row['Cabin'], row['Embarked'], row['Idade_Milissegundos']
+    ))
+
+# Confirmar a inserção
+conn.commit()
+
+cursor.execute("SELECT * FROM passageiros LIMIT 10")
+resultados = cursor.fetchall()
+for linha in resultados:
+    print(linha)
