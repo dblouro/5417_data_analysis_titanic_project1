@@ -9,6 +9,7 @@ import datetime
 import seaborn as sns
 import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
+import sqlite3
 
 # ATIVIDADE 3.1
 
@@ -231,7 +232,54 @@ plt.ylabel('Taxa de Sobrevivência')
 plt.xticks(rotation=0)
 plt.show()
 
+# ATIVIDADE 3.6 Exportação dos resultados
+
 #salvar num novo ficheiro CSV, incluindo todas as colunas novas
 df.to_csv('titanic_tratado_com_idade_final.csv', index=False)
 print("Novo ficheiro CSV criado: titanic_tratado_com_idade_final.csv")
 
+
+# ATIVIDADE 3.6 Armazenamento numa Base de Dados
+
+conn = sqlite3.connect('dados.db')
+cursor = conn.cursor()
+
+# Criar a tabela
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS passageiros (
+        PassengerId INTEGER PRIMARY KEY,
+        Survived INTEGER,
+        Pclass INTEGER,
+        Name TEXT,
+        Sex TEXT,
+        Age REAL,
+        SibSp INTEGER,
+        Parch INTEGER,
+        Ticket TEXT,
+        Fare REAL,
+        Cabin TEXT,
+        Embarked TEXT,
+        Idade_Milissegundos BIGINT
+    )
+''')
+
+# Confirmar a criação
+conn.commit()
+
+for index, row in df.iterrows():
+    cursor.execute('''
+        INSERT INTO passageiros (PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked, Idade_Milissegundos)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        row['PassengerId'], row['Survived'], row['Pclass'], row['Name'], row['Sex'],
+        row['Age'], row['SibSp'], row['Parch'], row['Ticket'], row['Fare'],
+        row['Cabin'], row['Embarked'], row['Idade_Milissegundos']
+    ))
+
+# Confirmar a inserção
+conn.commit()
+
+cursor.execute("SELECT * FROM passageiros LIMIT 10")
+resultados = cursor.fetchall()
+for linha in resultados:
+    print(linha)
