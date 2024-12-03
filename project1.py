@@ -241,6 +241,8 @@ print("Novo ficheiro CSV criado: titanic_tratado_com_idade_final.csv")
 
 # ATIVIDADE 3.6 Armazenamento numa Base de Dados
 
+
+# Conectar ao banco de dados
 conn = sqlite3.connect('dados.db')
 cursor = conn.cursor()
 
@@ -259,27 +261,47 @@ cursor.execute('''
         Fare REAL,
         Cabin TEXT,
         Embarked TEXT,
-        Idade_Milissegundos BIGINT
+        Idade_Milissegundos BIGINT,
+        Tamanho_Familia INTEGER
     )
 ''')
 
 # Confirmar a criação
 conn.commit()
 
+# Inserir ou atualizar os registros
 for index, row in df.iterrows():
     cursor.execute('''
-        INSERT INTO passageiros (PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked, Idade_Milissegundos)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO passageiros (PassengerId, Survived, Pclass, Name, Sex, Age, SibSp, Parch, Ticket, Fare, Cabin, Embarked, Idade_Milissegundos, Tamanho_Familia)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(PassengerId) DO UPDATE SET
+            Survived = excluded.Survived,
+            Pclass = excluded.Pclass,
+            Name = excluded.Name,
+            Sex = excluded.Sex,
+            Age = excluded.Age,
+            SibSp = excluded.SibSp,
+            Parch = excluded.Parch,
+            Ticket = excluded.Ticket,
+            Fare = excluded.Fare,
+            Cabin = excluded.Cabin,
+            Embarked = excluded.Embarked,
+            Idade_Milissegundos = excluded.Idade_Milissegundos,
+            Tamanho_Familia = excluded.Tamanho_Familia
     ''', (
         row['PassengerId'], row['Survived'], row['Pclass'], row['Name'], row['Sex'],
         row['Age'], row['SibSp'], row['Parch'], row['Ticket'], row['Fare'],
-        row['Cabin'], row['Embarked'], row['Idade_Milissegundos']
+        row['Cabin'], row['Embarked'], row['Idade_Milissegundos'], row['Tamanho_Familia']
     ))
 
-# Confirmar a inserção
+# Confirmar as mudanças
 conn.commit()
 
+# Selecionar e imprimir os primeiros 10 registros
 cursor.execute("SELECT * FROM passageiros LIMIT 10")
 resultados = cursor.fetchall()
 for linha in resultados:
     print(linha)
+
+# Fechar a conexão
+conn.close()
