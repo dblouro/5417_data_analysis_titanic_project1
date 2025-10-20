@@ -74,15 +74,24 @@ This project involves **exploratory analysis and preprocessing** of the Titanic 
 
 ## ** Visualizations**
 ### **Age Distribution by Survival**
-![Age Distribution](https://via.placeholder.com/600x400?text=Age+vs+Survival+Distribution)
+<p align="center">
+  <img src="images/age_distribution_by_survival.png" width="30%" alt="Distribuição da Idade por Sobrevivência">
+</p>
 
 ### **Survival Rate by Class and Gender**
-![Survival by Class and Gender](https://via.placeholder.com/600x400?text=Survival+by+Class+and+Gender)
+<p align="center">
+  <img src="images/survival_rate_by_class_and_gender.png" width="30%" alt="Distribuição por Classe e Genero">
+</p>
 
 ### **Family Size vs. Survival**
-![Family Size vs. Survival](https://via.placeholder.com/600x400?text=Family+Size+vs+Survival)
+<p align="center">
+  <img src="images/familysize_vs_survival.png" width="30%" alt="Relação entre Familia e Sobrevivencia">
+</p>
 
-*(Note: Replace placeholders with actual generated graphs.)*
+### **Additional Analysis - Comparison by Port of Shipment**
+<p align="center">
+  <img src="images/comparison_by_port_of_shipment.png" width="30%" alt="Análise Adicional - Comparação por Porto de Embarque">
+</p>
 
 ---
 
