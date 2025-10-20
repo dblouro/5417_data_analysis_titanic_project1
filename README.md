@@ -7,7 +7,16 @@ Developed by **Diogo Louro, Ricardo Conceição, and João Pedro Silva**
 ## ** Project Description**
 This project involves **exploratory analysis and preprocessing** of the Titanic dataset using Python, Pandas, Seaborn, and SQLite. The goal is to explore survival patterns among passengers, clean and transform the data, and visualize key insights.
 
----
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Seaborn](https://img.shields.io/badge/Seaborn-2E8B57?style=for-the-badge&logo=seaborn&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=matplotlib&logoColor=white)
+![Statsmodels](https://img.shields.io/badge/Statsmodels-4B8BBE?style=for-the-badge&logoColor=white)
+
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Excel](https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
+![OpenPyXL](https://img.shields.io/badge/OpenPyXL-005A9C?style=for-the-badge&logoColor=white)
 
 ## ** Project Structure**
 - **`titanic.csv`**: Original dataset.
