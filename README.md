@@ -125,4 +125,4 @@ Social class and gender were decisive factors in survival.
 Larger families (especially with children) had an advantage.
 Embarkation port may indicate socioeconomic differences among passengers.
 
-📧 Contact: diogolouro@outlook.com
+📧 Contact: dblouro@outlook.com
